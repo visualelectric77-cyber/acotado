@@ -1,9 +1,518 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Acotado · Soporte</title>
-<style>:root{color-scheme:dark}body{margin:0;background:#0E1113;color:#E9EEF0;font:17px/1.6 -apple-system,system-ui,sans-serif}main{max-width:640px;margin:0 auto;padding:64px 20px}.m{font-family:ui-monospace,Menlo,monospace}h1{font-weight:300;font-size:44px;letter-spacing:-.04em;margin:8px 0 20px;line-height:1.1}h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#D7F24B;margin:36px 0 8px;font-weight:500}p{color:#A3AEB4;margin:0 0 12px}a{color:#D7F24B}</style></head>
-<body><main><div class="m">ACOTADO</div><h1 class="m">Tu casa,<br>al milímetro.</h1>
-<p>Escanea tu casa con el LiDAR del iPhone, corrige el plano, prueba materiales a escala y sabe exactamente qué comprar.</p>
-<h2>Soporte</h2><p>¿Dudas o algún problema? Escribe a <a href="mailto:nachogg1228@gmail.com">nachogg1228@gmail.com</a>.</p>
-<h2>Para medir bien</h2><p>Enciende las luces, camina despacio, apunta a cada pared y comprueba una medida con tu cinta. Si hace falta, corrige el plano con el dedo.</p>
-<h2>Legal</h2><p><a href="privacidad.html">Política de privacidad</a></p></main></body></html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Acotado · Sal de la visita con el presupuesto hecho</title>
+<meta name="description" content="Mide con el LiDAR del iPhone, corrige con tu cinta y sal de la visita con el plano acotado, los metros por partida y el presupuesto en PDF. Para reformistas que visitan y presupuestan su propia obra.">
+<meta name="theme-color" content="#0B0E10">
+<link rel="icon" href="img/icono.png">
+<link rel="apple-touch-icon" href="img/icono.png">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  --fondo:#0B0E10;--fondo2:#12161A;--linea:rgba(233,238,240,.12);--texto:#F1F4F5;--texto2:#9BA6AC;
+  --lima:#D7F24B;--papel:#F3F4EE;--tinta:#14181B;--tinta2:#5E676D;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --suave:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fondo);color:var(--texto);font:400 19px/1.5 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,p{margin:0}
+.ancho{width:min(1200px,100%);margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.cota{display:flex;align-items:center;gap:14px;font:500 13px/1 var(--mono);letter-spacing:.06em;color:var(--lima)}
+.cota::before,.cota::after{content:"";height:9px;width:1px;background:currentColor;flex:none}
+.cota span{order:1}.cota::after{order:3}
+.cota i{order:2;flex:0 0 clamp(36px,8vw,96px);height:1px;background:currentColor;opacity:.55}
+.cota::before{order:0}
+
+/* barra */
+.nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.lleno{background:rgba(11,14,16,.72);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);border-color:var(--linea)}
+.nav div{display:flex;align-items:center;justify-content:space-between;height:60px}
+.marca{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.01em}
+.marca img{width:30px;height:30px;border-radius:7.5px}
+.nav nav{display:flex;align-items:center;gap:28px;font-size:14px;color:var(--texto2)}
+.nav nav a:hover{color:var(--texto)}
+.pronto{font:500 12px/1 var(--mono);letter-spacing:.02em;color:var(--fondo);background:var(--lima);padding:9px 13px;border-radius:99px;white-space:nowrap}
+.nav nav a:not(.pronto){transition:color .2s}
+
+/* portada */
+.portada{position:relative;padding-top:clamp(40px,8vh,90px);overflow:clip;text-align:center;isolation:isolate}
+.reticula{position:absolute;inset:0;z-index:-2;background-image:linear-gradient(var(--linea) 1px,transparent 1px),linear-gradient(90deg,var(--linea) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(ellipse 80% 62% at 50% 34%,#000 10%,transparent 76%);mask-image:radial-gradient(ellipse 80% 62% at 50% 34%,#000 10%,transparent 76%);opacity:.55}
+.portada .cota{justify-content:center;margin-bottom:28px}
+h1{font-size:clamp(46px,6.5vw,94px);line-height:1;letter-spacing:-.05em;font-weight:600}
+h1 em{font-style:normal;color:var(--lima)}
+.entrada{max-width:780px;margin:24px auto 0;padding:0 16px;color:var(--texto2);font-size:clamp(18px,1.9vw,23px);line-height:1.4;letter-spacing:-.012em}
+.acciones{display:flex;justify-content:center;align-items:center;gap:22px;margin-top:26px;flex-wrap:wrap}
+.boton{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 26px;border-radius:99px;background:var(--lima);color:var(--fondo);font-weight:600;font-size:17px;transition:transform .35s var(--suave)}
+.boton:hover{transform:scale(1.04)}.boton:active{transform:scale(.97);transition-duration:.08s}
+.acciones small{font:500 13px/1 var(--mono);color:var(--texto2)}
+
+/* teléfonos en 3D de verdad: una cara y muchas capas detrás hacen el canto */
+.ph{--w:300px;--r:calc(var(--w)*.17);position:relative;width:var(--w);aspect-ratio:1320/2868;transform-style:preserve-3d;will-change:transform}
+.ph .cara{position:absolute;inset:0;border-radius:var(--r);padding:calc(var(--w)*.028);background:#030405;box-shadow:0 0 0 1px #7e848a,inset 0 0 0 1px #2a2e32;transform:translateZ(0)}
+.ph .cara .pantalla{position:relative;width:100%;height:100%;border-radius:calc(var(--r) - var(--w)*.028);overflow:hidden;background:#000}
+.ph .cara img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ph .capa{position:absolute;inset:0;border-radius:var(--r);background:linear-gradient(105deg,#4c5054,#d3d7db 14%,#5f6368 38%,#adb2b8 66%,#3f4347)}
+.ph .sombra{position:absolute;inset:6% 8% -3%;border-radius:var(--r);background:#000;filter:blur(calc(var(--w)*.14));opacity:.7}
+.ph .brillo{position:absolute;inset:calc(var(--w)*.028);border-radius:calc(var(--r) - var(--w)*.028);background:linear-gradient(118deg,rgba(255,255,255,.13),rgba(255,255,255,0) 32%);pointer-events:none;mix-blend-mode:screen}
+
+.escena{position:relative;height:clamp(520px,74vw,860px);margin-top:clamp(40px,7vh,80px);perspective:2400px;perspective-origin:50% 20%}
+.escena .ph{position:absolute;left:50%;top:0;margin-left:calc(var(--w)/-2)}
+.escena .centro{--w:clamp(238px,28vw,372px);z-index:3}
+.escena .lado{--w:clamp(190px,23vw,306px);top:clamp(60px,8vw,110px)}
+.halo{position:absolute;left:50%;top:6%;width:min(900px,120vw);aspect-ratio:1.5;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(215,242,75,.17),transparent);z-index:-1;pointer-events:none}
+.traza{position:absolute;left:50%;top:clamp(20px,6vw,70px);transform:translateX(-50%);width:min(1160px,150vw);height:auto;z-index:-1;overflow:visible}
+.traza *{fill:none;stroke:var(--lima);stroke-width:1.4;vector-effect:non-scaling-stroke}
+.traza .t{stroke-dasharray:1;stroke-dashoffset:1}
+.escena.in .traza .t{animation:traza 2.2s var(--suave) .15s forwards}
+.traza text{fill:var(--lima);stroke:none;font:500 15px var(--mono);opacity:0}
+.escena.in .traza text{animation:aparece .8s ease 1.2s forwards}
+@keyframes traza{to{stroke-dashoffset:0}}
+@keyframes aparece{to{opacity:1}}
+
+/* la obra */
+.obra{position:relative;height:100svh;min-height:640px;overflow:clip;isolation:isolate;text-align:center}
+.lienzo{position:absolute;left:50%;top:calc(50% + 6svh);width:max(100vw,177svh);aspect-ratio:1400/791;transform:translate(-50%,-50%);z-index:-2}
+.mueve{position:absolute;inset:0;animation:acerca 22s ease-in-out infinite alternate;transform-origin:62% 62%}
+.mueve img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mueve svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+@keyframes acerca{to{transform:scale(1.07)}}
+.mueve .f{fill:var(--lima);opacity:0;animation:suelo 1.2s ease 1.7s forwards}
+@keyframes suelo{to{opacity:.07}}
+.mueve .a{fill:none;stroke:var(--lima);stroke-width:2;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 7px rgba(215,242,75,.65));animation:traza 1.1s var(--suave) var(--d) forwards}
+.mueve .pt circle{fill:var(--lima);stroke:#fff;stroke-width:2;opacity:0;animation:aparece .4s ease var(--d) forwards}
+.mueve .et{opacity:0;animation:aparece .5s ease var(--d) forwards}
+.mueve .et rect{fill:var(--lima)}
+.mueve .et text{font:600 15px var(--mono);fill:#11150A}
+.mueve .gr text{font-size:24px;letter-spacing:-.02em}
+.velo{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,14,16,.9) 0,rgba(11,14,16,.76) 50%,rgba(11,14,16,.12) 72%,rgba(11,14,16,0) 84%,var(--fondo) 100%)}
+.obra-texto{padding-top:clamp(96px,14vh,150px)}
+.obra-texto .cota{justify-content:center;margin-bottom:24px}
+
+.enobra{padding:clamp(70px,12vh,130px) 0 0;text-align:center}
+.enobra h2{font-size:clamp(46px,7.4vw,108px);line-height:1;letter-spacing:-.05em;font-weight:600}
+.enobra h2 span{color:var(--texto2)}
+#cuadro{margin:clamp(40px,7vh,72px) auto 0;width:calc(62% + var(--m,0)*38%);border-radius:calc((1 - var(--m,0))*36px);overflow:hidden;will-change:width}
+#cuadro img{width:100%;height:auto}
+figcaption{margin-top:14px;font:400 12.5px/1.4 var(--mono);color:#6D777D;text-align:right}
+.trio-t{font-size:clamp(40px,6vw,84px);line-height:1;letter-spacing:-.045em;font-weight:600;margin-top:24px}
+
+.sello{margin-top:16px;font:500 13px/1.6 var(--mono);color:var(--texto)}
+.sello i{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--lima);vertical-align:middle;margin:0 9px}
+
+/* frase */
+.frase{padding:clamp(110px,18vh,200px) 0}
+.frase p{font-size:clamp(34px,6.2vw,84px);line-height:1.06;letter-spacing:-.04em;font-weight:600;max-width:1050px}
+.frase b{font-weight:600;color:var(--texto);transition:opacity .25s linear}
+html.js .frase b{opacity:.16}
+html.js .frase b.visto{opacity:1}
+.frase b.lima{color:var(--lima)}
+
+/* comparación */
+.compara{padding:0 0 clamp(90px,14vh,160px)}
+.compara h2{font-size:clamp(42px,6.6vw,92px);line-height:1;letter-spacing:-.045em;font-weight:600;margin:24px 0 clamp(40px,7vh,70px)}
+.compara h2 span{color:var(--texto2)}
+.fila{display:grid;grid-template-columns:.8fr 1fr 1.15fr;gap:24px;padding:22px 0;border-top:1px solid var(--linea);align-items:baseline;font-size:clamp(18px,1.75vw,23px);letter-spacing:-.015em}
+.fila .que{font:500 13px/1.3 var(--mono);color:var(--texto2);letter-spacing:.01em}
+.fila .hoy{color:#6F7A80}
+.fila .con{font-weight:500}
+.fila .con::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--lima);margin-right:12px;vertical-align:.1em}
+.fila.cab{border-top:0;padding:0 0 14px;font:500 13px/1 var(--mono)}
+.fila.cab .con{color:var(--lima);font-weight:500}.fila.cab .con::before{display:none}
+
+/* formas de medir */
+.modos{padding:clamp(70px,12vh,130px) 0 0}
+.modos h2{font-size:clamp(42px,6vw,84px);line-height:1;letter-spacing:-.045em;font-weight:600;margin:24px 0 clamp(36px,6vh,60px)}
+.rejilla-modos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.modo{background:var(--fondo2);border:1px solid var(--linea);border-radius:24px;padding:26px;display:flex;flex-direction:column}
+.modo svg{width:120px;height:auto;margin-bottom:26px;overflow:visible}
+.modo h3{font-size:24px;letter-spacing:-.025em;font-weight:600}
+.modo p{color:var(--texto2);font-size:17px;line-height:1.38;margin-top:8px;letter-spacing:-.008em}
+.modo small{margin-top:auto;padding-top:22px;font:500 12.5px/1.4 var(--mono);color:var(--lima)}
+
+/* cómo funciona */
+.como{position:relative}
+.como .rejilla{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.paso{min-height:92vh;display:flex;flex-direction:column;justify-content:center;max-width:470px}
+.paso h2{font-size:clamp(38px,5vw,66px);line-height:1.02;letter-spacing:-.04em;font-weight:600;margin:22px 0 18px}
+.paso p{color:var(--texto2);font-size:clamp(18px,1.7vw,22px);line-height:1.42;letter-spacing:-.012em}
+.paso ul{list-style:none;margin:22px 0 0;padding:0;font:500 13px/1 var(--mono);display:flex;gap:8px;flex-wrap:wrap}
+.paso li{border:1px solid var(--linea);padding:9px 11px;border-radius:99px;color:var(--texto)}
+.paso .solo-movil{display:none}
+.pegado{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;perspective:2000px}
+.pegado .ph{--w:min(340px,38vh);transition:transform 1.1s var(--suave)}
+.pegado .pantalla img{opacity:0;transition:opacity .55s ease}
+.pegado .pantalla img.activa{opacity:1}
+.nota{position:absolute;left:50%;top:50%;font:500 14px/1 var(--mono);color:var(--fondo);background:var(--lima);padding:13px 16px;border-radius:12px;white-space:nowrap;transform:translate(-50%,-50%) translate3d(var(--x),var(--y),90px);box-shadow:0 24px 50px rgba(0,0,0,.5);transition:opacity .4s}
+
+/* papel */
+.papel{overflow:clip;background:var(--papel);color:var(--tinta);padding:clamp(100px,14vh,170px) 0;margin-top:clamp(40px,8vh,90px)}
+.papel .cota{color:var(--tinta)}
+.papel h2{font-size:clamp(42px,7vw,96px);line-height:1;letter-spacing:-.045em;font-weight:600;margin-top:24px;max-width:15ch}
+.papel .abre{color:var(--tinta2);font-size:clamp(19px,2vw,24px);letter-spacing:-.015em;line-height:1.38;max-width:600px;margin-top:24px}
+.lamina{margin-top:clamp(50px,8vh,90px);background:#fff;border-radius:28px;padding:clamp(18px,4vw,56px);box-shadow:0 1px 0 rgba(20,24,27,.06),0 40px 90px -40px rgba(20,24,27,.28)}
+.lamina svg{width:100%;height:auto;display:block}
+.lamina .m{fill:var(--tinta);stroke:none}
+.lamina .l{fill:none;stroke:var(--tinta);stroke-width:1;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s var(--suave)}
+.lamina .a{stroke:#E2541D}
+.lamina text{font:500 15px var(--mono);fill:var(--tinta);opacity:0;transition:opacity .7s ease 1s}
+.lamina text.g{fill:var(--tinta2)}
+.lamina.in .l{stroke-dashoffset:0}.lamina.in text{opacity:1}
+.mosaico{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:14px}
+.ficha{background:#fff;border-radius:24px;padding:clamp(24px,3vw,36px);grid-column:span 2;min-height:240px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 1px 0 rgba(20,24,27,.06)}
+.ficha.g{grid-column:span 3}
+.ficha.o{background:var(--tinta);color:var(--papel)}
+.ficha .dato{font:500 clamp(34px,4.4vw,58px)/1 var(--mono);letter-spacing:-.05em;margin-bottom:auto;padding-bottom:30px}
+.ficha.o .dato{color:var(--lima)}
+.ficha h3{font-size:22px;letter-spacing:-.02em;font-weight:600}
+.ficha p{color:var(--tinta2);font-size:17px;line-height:1.35;margin-top:5px;letter-spacing:-.008em}
+.ficha.o p{color:#A9B1B6}
+
+.hojas{position:relative;height:clamp(460px,58vw,800px);margin-top:clamp(50px,8vh,84px)}
+.hoja{position:absolute;left:50%;top:0;margin:0;width:clamp(230px,33vw,480px);margin-left:calc(clamp(230px,33vw,480px)/-2);transition:transform 1.3s var(--suave)}
+.hoja img{width:100%;height:auto;border-radius:6px;box-shadow:0 1px 0 rgba(20,24,27,.08),0 40px 80px -28px rgba(20,24,27,.42)}
+.hoja figcaption{text-align:center;color:var(--tinta2);margin-top:14px}
+.h2{z-index:3}.h3{z-index:2}.h1{z-index:1}
+.h1{transform:translateY(24px) rotate(-1deg)}.h3{transform:translateY(24px) rotate(1deg)}
+.hojas.in .h1{transform:translate(-68%,46px) rotate(-5deg)}
+.hojas.in .h3{transform:translate(68%,46px) rotate(5deg)}
+.nota-doc{margin-top:clamp(20px,4vh,40px);text-align:center;font:400 12.5px/1.4 var(--mono);color:var(--tinta2)}
+
+/* privada */
+.privada{padding:clamp(120px,20vh,220px) 0;text-align:center}
+.privada .cota{justify-content:center}
+.privada h2{font-size:clamp(46px,9vw,120px);line-height:.98;letter-spacing:-.05em;font-weight:600;margin-top:26px}
+.privada h2 span{display:block}
+.privada h2 span:nth-child(2){color:var(--texto2)}.privada h2 span:nth-child(3){color:#5A6469}
+.privada p{max-width:560px;margin:30px auto 0;color:var(--texto2);font-size:clamp(18px,1.8vw,22px);letter-spacing:-.012em;line-height:1.4}
+
+/* preguntas */
+.dudas{border-top:1px solid var(--linea);padding:clamp(70px,10vh,120px) 0}
+.dudas .rejilla{display:grid;grid-template-columns:.8fr 1.2fr;gap:40px}
+.dudas h2{font-size:clamp(36px,4.6vw,60px);letter-spacing:-.04em;line-height:1.02;font-weight:600}
+details{border-bottom:1px solid var(--linea)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;padding:22px 0;font-size:20px;letter-spacing:-.015em;font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 24px/1 var(--mono);color:var(--lima);transition:transform .4s var(--suave)}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--texto2);padding:0 40px 24px 0;font-size:18px;line-height:1.45}
+details a,.pie a{color:var(--lima)}
+
+.fin{text-align:center;padding:clamp(90px,14vh,150px) 0;border-top:1px solid var(--linea)}
+.fin img{width:112px;height:112px;border-radius:25px;margin:0 auto 26px;box-shadow:0 24px 60px rgba(215,242,75,.14)}
+.fin h2{font-size:clamp(38px,5.6vw,74px);letter-spacing:-.045em;line-height:1;font-weight:600}
+.fin p{color:var(--texto2);margin-top:14px;font-size:20px}
+.fin .estado{display:inline-block;margin-top:28px;font:500 14px/1 var(--mono);border:1px solid var(--linea);padding:14px 18px;border-radius:99px}
+.pie{border-top:1px solid var(--linea);padding:40px 0 48px;color:var(--texto2);font-size:14px;line-height:1.55}
+.pie .fila{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.pie .legal{margin-top:16px;font-size:12.5px;color:#6D777D;max-width:760px}
+
+/* aparecer */
+html.js .r{opacity:0;transform:translateY(26px);filter:blur(7px);transition:opacity .9s var(--suave),transform 1.1s var(--suave),filter .9s var(--suave)}
+html.js .r.in{opacity:1;transform:none;filter:none}
+.obra-texto .r:nth-child(2){transition-delay:.08s}.obra-texto .r:nth-child(3){transition-delay:.16s}.obra-texto .r:nth-child(4){transition-delay:.24s}
+
+@media (max-width:860px){
+  .nav nav a:not(.pronto){display:none}
+  .como .rejilla{display:block}
+  .pegado{display:none}
+  .paso{min-height:0;max-width:none;padding:56px 0;border-top:1px solid var(--linea)}
+  .paso .solo-movil{display:flex;justify-content:center;margin-top:44px;perspective:1500px}
+  .paso .solo-movil .ph{--w:min(66vw,290px);transform:rotateY(-14deg) rotateX(4deg)}
+  .fila{grid-template-columns:1fr 1fr;gap:6px 16px;padding:18px 0}
+  .fila .que{grid-column:1/-1}.fila.cab{padding-bottom:10px}.fila.cab .que{display:none}
+  .rejilla-modos{grid-template-columns:1fr 1fr}.modo{padding:20px}.modo svg{width:96px;margin-bottom:18px}.modo h3{font-size:20px}.modo p{font-size:15px}
+  .hojas{height:128vw}.hoja{width:62vw;margin-left:-31vw}
+  .hojas.in .h1{transform:translate(-40%,34px) rotate(-5deg)}.hojas.in .h3{transform:translate(40%,34px) rotate(5deg)}
+  .sello{font-size:11.5px}.sello i{margin:0 6px}
+  .mosaico{grid-template-columns:1fr 1fr}
+  .ficha,.ficha.g{grid-column:span 1;min-height:210px}
+  .ficha.a2{grid-column:span 2}
+  .dudas .rejilla{grid-template-columns:1fr}
+  .traza{top:0}
+  .escena{height:clamp(470px,118vw,700px)}
+  .escena .centro{--w:clamp(214px,58vw,300px)}
+  .escena .lado{--w:clamp(164px,44vw,240px)}
+  .ficha h3{font-size:19px}.ficha p{font-size:15px}
+  .obra-texto .cota{font-size:10.5px;gap:8px;white-space:nowrap;letter-spacing:.03em}
+  .obra-texto .cota i{flex-basis:18px}
+  #cuadro{width:calc(86% + var(--m,0)*14%)}
+  .lamina text{font-size:24px}
+  .lamina text.g{font-size:21px}
+}
+@media (max-width:560px){.lienzo{left:calc(50% - 72vw);top:calc(50% + 17svh)}.mueve .gr,.mueve .alto{display:none}.velo{background:linear-gradient(180deg,rgba(11,14,16,.94) 0,rgba(11,14,16,.86) 62%,rgba(11,14,16,.08) 80%,rgba(11,14,16,0) 92%,var(--fondo) 100%)}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  html.js .r{transform:none;filter:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav"><div class="ancho">
+  <a class="marca" href="#arriba"><img src="img/icono.png" alt="">Acotado</a>
+  <nav><a href="#como">Cómo funciona</a><a href="#entregas">Qué entregas</a><a href="#soporte">Soporte</a><span class="pronto">Muy pronto</span></nav>
+</div></header>
+
+<main id="arriba">
+<section class="obra">
+  <div class="lienzo"><div class="mueve">
+    <img src="img/obra-sala.jpg" alt="Piso en plena reforma, con paredes de yeso, ladrillo visto y una escalera">
+    <svg viewBox="0 0 1400 791" aria-hidden="true">
+      <path class="f" d="M327 527H1057L1330 640L1400 660V791H0V668L72 640Z"/>
+      <path class="a" style="--d:.5s" pathLength="1" d="M327 527H1057"/>
+      <path class="a" style="--d:1s" pathLength="1" d="M1057 527L1330 640"/>
+      <path class="a" style="--d:1s" pathLength="1" d="M327 527L72 640"/>
+      <path class="a" style="--d:1.4s" pathLength="1" d="M1057 527V113"/>
+      <path class="a" style="--d:1.4s" pathLength="1" d="M327 527V113"/>
+      <path class="a" style="--d:1.8s" pathLength="1" d="M327 113H1057"/>
+      <g class="pt" style="--d:.5s"><circle cx="327" cy="527" r="6"/><circle cx="1057" cy="527" r="6"/></g>
+      <g class="pt" style="--d:1.4s"><circle cx="1330" cy="640" r="6"/><circle cx="72" cy="640" r="6"/></g>
+      <g class="pt" style="--d:1.9s"><circle cx="1057" cy="113" r="6"/><circle cx="327" cy="113" r="6"/></g>
+      <g class="et" style="--d:1.2s" transform="translate(880 527)"><rect x="-44" y="-16" width="88" height="32" rx="16"/><text y="5.5" text-anchor="middle">5,90 m</text></g>
+      <g class="et" style="--d:1.6s" transform="translate(1193 584) rotate(22.5)"><rect x="-44" y="-16" width="88" height="32" rx="16"/><text y="5.5" text-anchor="middle">4,12 m</text></g>
+      <g class="et alto" style="--d:2s" transform="translate(1057 432)"><rect x="-44" y="-16" width="88" height="32" rx="16"/><text y="5.5" text-anchor="middle">2,60 m</text></g>
+      <g class="et gr" style="--d:2.5s" transform="translate(760 690)"><rect x="-92" y="-25" width="184" height="50" rx="25"/><text y="8.5" text-anchor="middle">24,31 m²</text></g>
+    </svg>
+  </div></div>
+  <div class="velo"></div>
+  <div class="ancho obra-texto">
+    <div class="cota r"><span>PARA REFORMISTAS</span><i></i><span style="order:4">QUE PRESUPUESTAN SU OBRA</span></div>
+    <h1 class="r">Sal de la visita<br>con el presupuesto <em>hecho.</em></h1>
+    <p class="entrada r">Mide con el sensor LiDAR de los iPhone Pro, corrige con tu cinta y envía el plano y el presupuesto antes de llegar a la furgoneta.</p>
+    <div class="acciones r"><a class="boton" href="#como">Ver cómo funciona</a></div>
+    <p class="sello r">App para iPhone Pro <i></i> Gratis <i></i> Sin suscripción <i></i> Muy pronto en el App Store</p>
+  </div>
+</section>
+
+<section class="enobra">
+  <div class="ancho"><h2 class="r">En la obra.<br><span>No en la oficina.</span></h2></div>
+  <figure id="cuadro"><img src="img/obra-manos.jpg" alt="Unas manos sujetan un iPhone en una obra, con Acotado midiendo la pared y el suelo" loading="lazy"></figure>
+  <div class="ancho"><figcaption>Imagen ilustrativa creada con la interfaz de Acotado.</figcaption></div>
+</section>
+
+<section class="frase"><div class="ancho"><p id="frase">Cinta. Libreta. Fotos sueltas. Y por la noche, Excel. <span class="l">Acotado te lo deja hecho en la obra.</span></p></div></section>
+
+<section class="compara"><div class="ancho">
+  <div class="cota r"><span>LO QUE CAMBIA</span><i></i><span style="order:4">EN CADA VISITA</span></div>
+  <h2 class="r">El mismo trabajo.<br><span>Sin pasarlo a limpio.</span></h2>
+  <div class="tabla">
+    <div class="fila cab r"><span class="que"></span><span class="hoy">Hoy</span><span class="con">Con Acotado</span></div>
+<div class="fila r"><span class="que">Medir</span><span class="hoy">Cinta, láser y libreta</span><span class="con">Rodeas la habitación con el iPhone</span></div>
+<div class="fila r"><span class="que">Pasar a limpio</span><span class="hoy">Otro rato, en casa o en la oficina</span><span class="con">Queda hecho al terminar de medir</span></div>
+<div class="fila r"><span class="que">Plano</span><span class="hoy">Croquis a mano o rato de CAD</span><span class="con">Plano acotado en PDF y DXF</span></div>
+<div class="fila r"><span class="que">Metros</span><span class="hoy">Calculadora y Excel</span><span class="con">Por partidas, descontando huecos</span></div>
+<div class="fila r"><span class="que">Presupuesto</span><span class="hoy">Otro día, cuando puedas</span><span class="con">Con tus precios, tu logo y el IVA</span></div>
+<div class="fila r"><span class="que">Si cambia una medida</span><span class="hoy">Vuelves a hacer las cuentas</span><span class="con">Se recalcula todo</span></div>
+  </div>
+</div></section>
+
+<section class="portada">
+  <div class="reticula"></div><div class="halo"></div>
+  <div class="ancho"><div class="cota r"><span>UNA SOLA VISITA</span><i></i><span style="order:4">TODO LO QUE NECESITAS</span></div>
+  <h2 class="trio-t r">El plano, el presupuesto<br>y la casa en 3D.</h2></div>
+  <div class="escena dispara" id="escena" aria-hidden="true">
+    <svg class="traza" viewBox="0 0 1160 620" preserveAspectRatio="xMidYMin meet">
+      <path class="t" pathLength="1" d="M90 80H1070V560H90Z" opacity=".35"/>
+      <path class="t" pathLength="1" d="M90 44H1070M90 34V54M1070 34V54"/>
+      <path class="t" pathLength="1" d="M48 80V560M38 80H58M38 560H58"/>
+      <text x="580" y="28" text-anchor="middle">5,90 m</text>
+      <text x="26" y="324" text-anchor="middle" transform="rotate(-90 26 320)">4,12 m</text>
+    </svg>
+    <div class="ph lado" id="f-i" data-img="presupuesto"></div>
+    <div class="ph lado" id="f-d" data-img="sala3d"></div>
+    <div class="ph centro" id="f-c" data-img="plano"></div>
+  </div>
+</section>
+
+<section class="como" id="como"><div class="ancho"><div class="rejilla">
+  <div id="pasos">
+    <article class="paso" data-i="0">
+      <div class="cota"><span>01</span><i></i><span style="order:4">MIDE</span></div>
+      <h2>Rodea la habitación. Ya está.</h2>
+      <p>El iPhone te enseña cómo moverte y un círculo te avisa cuando has dado la vuelta completa. Si la sala es difícil, toca cada pared o marca las esquinas.</p>
+      <ul><li>Escanear</li><li>Paredes</li><li>Suelo</li><li>Una pared</li></ul>
+      <div class="solo-movil"><div class="ph" data-img="medir" data-lazy></div></div>
+    </article>
+    <article class="paso" data-i="1">
+      <div class="cota"><span>02</span><i></i><span style="order:4">CORRIGE</span></div>
+      <h2>Tu cinta manda.</h2>
+      <p>Toca una medida y escribe la que te da el metro: mueve solo esa pared o ajusta todo el plano. Las esquinas se arrastran con el dedo.</p>
+      <div class="solo-movil"><div class="ph" data-img="editor" data-lazy></div></div>
+    </article>
+    <article class="paso" data-i="2">
+      <div class="cota"><span>03</span><i></i><span style="order:4">DIBUJA</span></div>
+      <h2>Plano acotado, sin delinear.</h2>
+      <p>Cotas totales y parciales, puertas, ventanas y alféizares. En PDF para el cliente y en DXF para abrirlo en tu programa de CAD.</p>
+      <ul><li>PDF</li><li>DXF</li></ul>
+      <div class="solo-movil"><div class="ph" data-img="plano" data-lazy></div></div>
+    </article>
+    <article class="paso" data-i="3">
+      <div class="cota"><span>04</span><i></i><span style="order:4">CUENTA</span></div>
+      <h2>Los metros, por partidas.</h2>
+      <p>Solado, paredes descontando huecos, techo y rodapié, habitación a habitación. Si corriges el plano, todo se recalcula.</p>
+      <ul><li>m²</li><li>ml</li><li>Excel</li></ul>
+      <div class="solo-movil"><div class="ph" data-img="proyecto" data-lazy></div></div>
+    </article>
+    <article class="paso" data-i="4">
+      <div class="cota"><span>05</span><i></i><span style="order:4">PRESUPUESTA</span></div>
+      <h2>Con tus precios y tu logo.</h2>
+      <p>Las partidas salen de lo medido y tus precios se recuerdan para la próxima obra. Eliges el IVA y envías el PDF por donde quieras.</p>
+      <ul><li>IVA 10 %</li><li>IVA 21 %</li><li>PDF</li></ul>
+      <div class="solo-movil"><div class="ph" data-img="presupuesto" data-lazy></div></div>
+    </article>
+    <article class="paso" data-i="5">
+      <div class="cota"><span>06</span><i></i><span style="order:4">CONVENCE</span></div>
+      <h2>Que vea cómo va a quedar.</h2>
+      <p>Prueba materiales a escala sobre su propia casa, en 3D o en realidad aumentada, y calcula cajas, cola y lechada.</p>
+      <ul><li>3D</li><li>Realidad aumentada</li></ul>
+      <div class="solo-movil"><div class="ph" data-img="sala3d" data-lazy></div></div>
+    </article>
+  </div>
+  <div class="pegado" aria-hidden="true">
+    <div class="ph" id="f-paso" data-pasos="medir editor plano proyecto presupuesto sala3d">
+      <div class="nota" id="nota" style="--x:190px;--y:-180px">Habitación completa</div>
+    </div>
+  </div>
+</div></div></section>
+
+<section class="modos"><div class="ancho">
+  <div class="cota r"><span>CUATRO FORMAS</span><i></i><span style="order:4">DE MEDIR</span></div>
+  <h2 class="r">Usa la que pida la obra.</h2>
+  <div class="rejilla-modos">
+<article class="modo r"><svg viewBox="0 0 120 92" aria-hidden="true" style="color:var(--texto)"><rect x="16" y="12" width="88" height="62" fill="none" stroke="currentColor" stroke-opacity=".28"/><rect x="16" y="12" width="88" height="62" fill="none" stroke="#D7F24B" stroke-width="2"/><path d="M60 80a37 37 0 1 0-.1 0" fill="none" stroke="#D7F24B" stroke-dasharray="2 5" opacity=".7"/><circle cx="60" cy="80" r="3.5" fill="#D7F24B"/></svg><h3>Escanear</h3><p>Rodeas la habitación y salen el suelo, las paredes, las puertas y las ventanas.</p><small>Para la mayoría de salas</small></article>
+<article class="modo r"><svg viewBox="0 0 120 92" aria-hidden="true" style="color:var(--texto)"><rect x="16" y="12" width="88" height="62" fill="none" stroke="currentColor" stroke-opacity=".28"/><path d="M16 12H104V74H16Z" fill="none" stroke="#D7F24B" stroke-width="2" stroke-dasharray="26 8"/><circle cx="60" cy="12" r="3.5" fill="#D7F24B"/><circle cx="104" cy="43" r="3.5" fill="#D7F24B"/><circle cx="60" cy="74" r="3.5" fill="#D7F24B"/><circle cx="16" cy="43" r="3.5" fill="#D7F24B"/></svg><h3>Paredes</h3><p>Apuntas a cada pared y la marcas, y después al techo.</p><small>Si hay muebles o el escaneo se resiste</small></article>
+<article class="modo r"><svg viewBox="0 0 120 92" aria-hidden="true" style="color:var(--texto)"><path d="M16 12H104V74H16Z" fill="#D7F24B" fill-opacity=".2" stroke="#D7F24B" stroke-width="2"/><circle cx="16" cy="12" r="3.5" fill="#D7F24B"/><circle cx="104" cy="12" r="3.5" fill="#D7F24B"/><circle cx="104" cy="74" r="3.5" fill="#D7F24B"/><circle cx="16" cy="74" r="3.5" fill="#D7F24B"/></svg><h3>Suelo</h3><p>Solo la superficie del suelo, con sus esquinas.</p><small>Para un solado o una tarima</small></article>
+<article class="modo r"><svg viewBox="0 0 120 92" aria-hidden="true" style="color:var(--texto)"><rect x="16" y="12" width="88" height="62" fill="none" stroke="currentColor" stroke-opacity=".28"/><path d="M16 12H104" fill="none" stroke="#D7F24B" stroke-width="2" stroke-width="3"/><circle cx="16" cy="12" r="3.5" fill="#D7F24B"/><circle cx="104" cy="12" r="3.5" fill="#D7F24B"/></svg><h3>Una pared</h3><p>Un único paño, sin medir el resto de la sala.</p><small>Para alicatar o pintar una pared</small></article>
+  </div>
+</div></section>
+
+<section class="papel" id="entregas"><div class="ancho">
+  <div class="cota r"><span>LO QUE ENTREGAS</span><i></i><span style="order:4">A TU CLIENTE Y A TU GENTE</span></div>
+  <h2 class="r">Un documento, no una foto de la libreta.</h2>
+  <p class="abre r">El presupuesto y el plano salen de la app listos para enviar al cliente, al arquitecto o al almacén.</p>
+  <div class="hojas dispara">
+    <figure class="hoja h1"><img src="img/doc-alzado.jpg" alt="Alzado acotado de una pared con su ventana" loading="lazy"><figcaption>Alzados</figcaption></figure>
+    <figure class="hoja h3"><img src="img/doc-plano.jpg" alt="Plano acotado en PDF" loading="lazy"><figcaption>Plano acotado</figcaption></figure>
+    <figure class="hoja h2"><img src="img/doc-presupuesto.jpg" alt="Presupuesto en PDF con logo, partidas, IVA y total" loading="lazy"><figcaption>Presupuesto</figcaption></figure>
+  </div>
+  <p class="nota-doc">Documentos reales de Acotado, con datos de ejemplo.</p>
+  <div class="mosaico">
+    <div class="ficha g r"><div class="dato">PDF · DXF</div><h3>El plano, en el formato de cada uno</h3><p>PDF para el cliente y DXF para seguir trabajándolo en CAD.</p></div>
+    <div class="ficha g o r"><div class="dato">USDZ · OBJ</div><h3>La casa en 3D</h3><p>Paredes y suelo, listos para abrir en tu programa de 3D.</p></div>
+    <div class="ficha r"><div class="dato">Excel</div><h3>Metros por partida</h3><p>En un archivo que abre tu hoja de cálculo.</p></div>
+    <div class="ficha r"><div class="dato">48</div><h3>Materiales</h3><p>Madera, mármol, microcemento, terrazo, zellige y pintura.</p></div>
+    <div class="ficha a2 r"><div class="dato">Fotos + notas</div><h3>La visita, guardada</h3><p>Fotos y apuntes de cada obra, en un PDF.</p></div>
+  </div>
+</div></section>
+
+<section class="privada"><div class="ancho">
+  <div class="cota r"><span>PRIVADA</span><i></i><span style="order:4">Y TUYA</span></div>
+  <h2 class="r"><span>Sin cuentas.</span><span>Sin conexión.</span><span>Sin suscripción.</span></h2>
+  <p class="r">Tus obras y las de tus clientes se quedan en tu iPhone. Solo salen cuando tú las envías.</p>
+</div></section>
+
+<section class="dudas" id="soporte"><div class="ancho"><div class="rejilla">
+  <h2 class="r">Preguntas y soporte</h2>
+  <div class="r">
+    <details><summary>¿Qué iPhone necesito?</summary><p>Para medir hace falta un iPhone con LiDAR: los modelos Pro desde el 12 Pro, con iOS 26. En cualquier otro iPhone con iOS 26 puedes abrir la obra de ejemplo y ver el plano, el 3D y el presupuesto.</p></details>
+    <details><summary>¿Cómo de exactas son las medidas?</summary><p>Toda medición con LiDAR tiene un margen de error. Por eso puedes comprobar una pared con tu cinta y ajustar el plano. Confirma siempre las medidas en obra antes de cortar o de hacer un pedido.</p></details>
+    <details><summary>¿Cuánto cuesta?</summary><p>La primera versión es gratis, sin compras dentro de la app y sin suscripción.</p></details>
+    <details><summary>¿Dónde se guardan mis datos?</summary><p>En tu iPhone. La app no tiene cuentas, no usa analítica y no se conecta a internet. Lee la <a href="privacidad.html">política de privacidad</a>.</p></details>
+    <details><summary>Consejos para medir bien</summary><p>Enciende las luces, abre las puertas, camina despacio y rodea la habitación hasta que veas «Habitación completa». Después comprueba una medida con tu cinta.</p></details>
+    <details><summary>¿Algún problema?</summary><p>Escribe a <a href="mailto:nachogg1228@gmail.com">nachogg1228@gmail.com</a>.</p></details>
+  </div>
+</div></div></section>
+
+<section class="fin"><div class="ancho r">
+  <img src="img/icono.png" alt="Icono de Acotado">
+  <h2>Mide. Presupuesta. Envía.</h2>
+  <p>Desde la propia obra.</p>
+  <!-- cuando la app esté aprobada: cambiar por el enlace https://apps.apple.com/app/id6832471988 -->
+  <span class="estado">Muy pronto en el App Store</span>
+</div></section>
+</main>
+
+<footer class="pie"><div class="ancho">
+  <div class="fila"><span>© 2026 Ignacio García</span><span><a href="privacidad.html">Privacidad</a> &nbsp;·&nbsp; <a href="mailto:nachogg1228@gmail.com">Soporte</a></span></div>
+  <p class="legal">Pantallas de la app con datos de ejemplo. Las escenas de obra están creadas con IA y la pantalla de medir es una recreación con la interfaz real. iPhone, LiDAR Scanner y App Store son marcas de Apple Inc. Las medidas son orientativas: confírmalas en obra.</p>
+</div></footer>
+
+<script>
+(function(){
+  var quieto=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // monta el teléfono: las capas de detrás hacen el canto metálico
+  function monta(p){
+    var w=p.getBoundingClientRect().width||parseFloat(getComputedStyle(p).width)||300;
+    var fondo=Math.max(14,Math.min(26,w*.075)),n=Math.round(fondo/1.1),h='';
+    h+='<div class="sombra" style="transform:translateZ('+(-fondo-30)+'px)"></div>';
+    for(var i=n;i>0;i--)h+='<div class="capa" style="transform:translateZ('+(-i*1.1).toFixed(1)+'px)"></div>';
+    var pasos=p.dataset.pasos,imgs;
+    if(pasos)imgs=pasos.split(' ').map(function(n,i){return '<img class="'+(i?'':'activa')+'" src="img/'+n+'.jpg" alt=""'+(i?' loading="lazy"':'')+'>'}).join('');
+    else imgs='<img src="img/'+p.dataset.img+'.jpg" alt=""'+(p.hasAttribute('data-lazy')?' loading="lazy"':'')+'>';
+    var nota=p.querySelector('.nota');
+    p.insertAdjacentHTML('afterbegin',h+'<div class="cara"><div class="pantalla">'+imgs+'</div><div class="brillo"></div></div>');
+    if(nota)p.appendChild(nota);
+  }
+  document.querySelectorAll('.ph').forEach(monta);
+
+  // la frase se enciende palabra a palabra con el scroll
+  var f=document.getElementById('frase'),pal=[];
+  (function trocea(n){
+    Array.from(n.childNodes).forEach(function(c){
+      if(c.nodeType===3){
+        var fr=document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach(function(t){
+          if(!t.trim()){fr.appendChild(document.createTextNode(t));return}
+          var b=document.createElement('b');b.textContent=t;if(n.classList&&n.classList.contains('l'))b.className='lima';fr.appendChild(b);pal.push(b);
+        });
+        c.replaceWith(fr);
+      }else trocea(c);
+    });
+  })(f);
+
+  var nav=document.getElementById('nav'),esc=document.getElementById('escena'),
+      c=document.getElementById('f-c'),i=document.getElementById('f-i'),d=document.getElementById('f-d'),pedido=false;
+  function pinta(){
+    pedido=false;
+    var y=scrollY,vh=innerHeight;
+    nav.classList.toggle('lleno',y>12);
+    var mov=innerWidth<=860,er=esc.getBoundingClientRect(),p=quieto?1:Math.max(0,Math.min(1,(vh*.95-er.top)/(vh*.75))),abre=20+p*(mov?68:78); // % del ancho del teléfono
+    var w=i.offsetWidth;
+    c.style.transform='translateY('+((1-p)*60)+'px) rotateX('+((1-p)*7)+'deg)';
+    var cu=document.getElementById('cuadro'),cr=cu.getBoundingClientRect(),m=quieto?1:Math.max(0,Math.min(1,(vh*.92-cr.top)/(vh*.72)));cu.style.setProperty('--m',m.toFixed(3));
+    i.style.transform='translateX('+(-abre/100*w)+'px) translateZ(-120px) rotateY('+(p*26)+'deg) rotateZ('+(-p*2.5)+'deg)';
+    d.style.transform='translateX('+(abre/100*w)+'px) translateZ(-120px) rotateY('+(-p*26)+'deg) rotateZ('+(p*2.5)+'deg)';
+    var r=f.getBoundingClientRect(),av=(vh*.82-r.top)/(r.height+vh*.28),on=Math.floor(Math.max(0,Math.min(1,av))*(pal.length+1));
+    pal.forEach(function(b,k){b.classList.toggle('visto',quieto||k<on)});
+  }
+  function pide(){if(!pedido){pedido=true;requestAnimationFrame(pinta)}}
+  addEventListener('scroll',pide,{passive:true});addEventListener('resize',pide);pinta();
+
+  // pasos: el teléfono gira y cambia de pantalla
+  var fp=document.getElementById('f-paso'),nota=document.getElementById('nota'),imgs=fp.querySelectorAll('.pantalla img');
+  var poses=[[-16,5,-2],[14,-3,2],[-12,-5,1.5],[16,4,-2],[-14,3,2],[12,-4,-1.5]];
+  var notas=[['Esquina marcada',190,-180],['4,12 m → escribe la tuya',-205,-130],['Cotas parciales',190,-60],['48,52 m² de paredes',-200,70],['IVA incluido en el PDF',190,110],['19 cajas',-140,-180]];
+  function pon(k){
+    imgs.forEach(function(m,j){m.classList.toggle('activa',j===k)});
+    var q=poses[k];fp.style.transform=quieto?'none':'rotateY('+q[0]+'deg) rotateX('+q[1]+'deg) rotateZ('+q[2]+'deg)';
+    nota.style.opacity=0;
+    setTimeout(function(){var n=notas[k],e=Math.min(1,fp.offsetWidth/300);nota.textContent=n[0];nota.style.setProperty('--x',(n[1]*e)+'px');nota.style.setProperty('--y',(n[2]*e)+'px');nota.style.opacity=1},quieto?0:260);
+  }
+  pon(0);
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)pon(+e.target.dataset.i)})},{rootMargin:'-50% 0px -50% 0px'});
+  document.querySelectorAll('.paso').forEach(function(p){io.observe(p)});
+
+  var ver=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ver.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.r,.dispara').forEach(function(e){ver.observe(e)});
+})();
+</script>
+</body>
+</html>
