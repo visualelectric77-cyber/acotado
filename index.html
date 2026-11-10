@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Acotado · Sal de la visita con el presupuesto hecho</title>
-<meta name="description" content="Mide con el LiDAR del iPhone, corrige con tu cinta y sal de la visita con el plano acotado, los metros por partida y el presupuesto en PDF. Para reformistas que visitan y presupuestan su propia obra.">
+<meta name="description" content="Mide con el LiDAR del iPhone o del iPad, corrige con tu cinta y sal de la visita con el plano acotado, los metros por partida y el presupuesto en PDF. En el iPad, también con Apple Pencil. Para reformistas que visitan y presupuestan su propia obra.">
 <meta name="theme-color" content="#0B0E10">
 <link rel="icon" href="img/icono.png">
 <link rel="apple-touch-icon" href="img/icono.png">
@@ -98,13 +98,92 @@ h1 em{font-style:normal;color:var(--lima)}
 .enobra{padding:clamp(70px,12vh,130px) 0 0;text-align:center}
 .enobra h2{font-size:clamp(46px,7.4vw,108px);line-height:1;letter-spacing:-.05em;font-weight:600}
 .enobra h2 span{color:var(--texto2)}
-#cuadro{margin:clamp(40px,7vh,72px) auto 0;width:calc(62% + var(--m,0)*38%);border-radius:calc((1 - var(--m,0))*36px);overflow:hidden;will-change:width}
-#cuadro img{width:100%;height:auto}
+.crece{margin:clamp(40px,7vh,72px) auto 0;width:calc(62% + var(--m,0)*38%);border-radius:calc((1 - var(--m,0))*36px);overflow:hidden;will-change:width}
+.crece img{width:100%;height:auto}
 figcaption{margin-top:14px;font:400 12.5px/1.4 var(--mono);color:#6D777D;text-align:right}
 .trio-t{font-size:clamp(40px,6vw,84px);line-height:1;letter-spacing:-.045em;font-weight:600;margin-top:24px}
 
 .sello{margin-top:16px;font:500 13px/1.6 var(--mono);color:var(--texto)}
 .sello i{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--lima);vertical-align:middle;margin:0 9px}
+
+/* el aviso de la portada */
+.nuevo{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 20px 0 10px;border-radius:99px;border:1px solid rgba(215,242,75,.38);background:rgba(11,14,16,.5);font-size:16px;font-weight:500;letter-spacing:-.01em;transition:transform .35s var(--suave),border-color .2s}
+.nuevo b{font:600 11px/1 var(--mono);letter-spacing:.05em;background:var(--lima);color:var(--fondo);padding:8px 10px;border-radius:99px}
+.nuevo i{font-style:normal;color:var(--lima);transition:transform .35s var(--suave)}
+.nuevo:hover{border-color:var(--lima)}.nuevo:hover i{transform:translateX(4px)}.nuevo:active{transform:scale(.97);transition-duration:.08s}
+
+/* iPad con Apple Pencil */
+.lapiz{position:relative;padding:0 0 clamp(90px,14vh,160px);overflow:clip;isolation:isolate}
+.lapiz .cab{text-align:center}
+.lapiz .cota{justify-content:center}
+.lapiz h2{font-size:clamp(46px,7.4vw,108px);line-height:1;letter-spacing:-.05em;font-weight:600;margin-top:24px}
+.lapiz h2 em{font-style:normal;color:var(--lima)}
+.lapiz .abre{max-width:740px;margin:24px auto 0;color:var(--texto2);font-size:clamp(18px,1.9vw,23px);line-height:1.4;letter-spacing:-.012em}
+.taller{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,4vw,70px);align-items:center;margin-top:clamp(60px,10vh,120px)}
+.mesa{order:2;position:relative;display:grid;place-items:center;perspective:2200px;perspective-origin:50% 40%;min-height:clamp(600px,66vw,860px)}
+.mesa .halo{top:8%;width:min(820px,110vw);z-index:0}
+.ph.pad{--w:clamp(300px,35vw,500px);--r:calc(var(--w)*.058);aspect-ratio:1000/1365;transform:rotateY(-15deg) rotateX(6deg) rotateZ(1.5deg);transition:transform 1.25s var(--suave)}
+.ph.pad .cara{padding:calc(var(--w)*.03);box-shadow:0 0 0 1px #8b9197,inset 0 0 0 1px #2a2e32}
+.ph.pad .cara .pantalla{border-radius:calc(var(--w)*.03)}
+.ph.pad .brillo{inset:calc(var(--w)*.03);border-radius:calc(var(--w)*.03)}
+.ph.pad.apoyado{transform:rotateX(40deg) rotateY(0deg) rotateZ(-7deg) translateY(4%)}
+/* la pantalla del iPad: se dibuja a 834 × 1158 y se escala */
+.pd{position:absolute;left:0;top:0;width:834px;height:1158px;transform-origin:0 0;transform:scale(var(--k,.5));overflow:hidden;background:#101214;color:#fff;font-family:var(--sans);line-height:1.2;-webkit-user-select:none;user-select:none}
+.pd-som{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.7) 0,rgba(0,0,0,.4) 9%,rgba(0,0,0,0) 20%,rgba(0,0,0,0) 80%,rgba(0,0,0,.46) 100%)}
+.pd svg.ar{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.pd .zo{fill:none;stroke:var(--lima);stroke-width:2;opacity:.85;filter:drop-shadow(0 0 5px rgba(215,242,75,.7))}
+.pd .hu{fill:rgba(215,242,75,.2);stroke:var(--lima);stroke-width:2.5;stroke-dasharray:7 6;opacity:0}
+.pd .hu.puesto{stroke-dasharray:none;fill:rgba(215,242,75,.17)}
+.pd .pu{fill:#fff;stroke:var(--lima);stroke-width:2.5;opacity:0}
+.pd-est{position:absolute;left:30px;right:26px;top:13px;display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;letter-spacing:-.01em}
+.pd-est span{font-weight:500}
+.pd-est svg{margin-left:auto;width:62px;height:14px}
+.pd-bo{position:absolute;top:42px;width:48px;height:48px;border-radius:50%;background:rgba(30,31,33,.74);display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
+.pd-bo svg{width:20px;height:20px}
+.pd-aviso{position:absolute;top:45px;left:50%;transform:translateX(-50%);height:42px;padding:0 20px;border-radius:21px;background:rgba(30,31,33,.74);box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);font-size:15.5px;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;white-space:nowrap}
+.pd-quieta{position:absolute;top:106px;left:50%;transform:translateX(-50%);display:flex;gap:8px;opacity:0;transition:opacity .35s ease}
+.pd-quieta span{height:36px;padding:0 15px;border-radius:18px;display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;white-space:nowrap;background:rgba(62,62,64,.86)}
+.pd-quieta span:first-child{background:var(--lima);color:#12160a}
+.pd-quieta svg{width:11px;height:12px}
+.pd-marco{position:absolute;inset:0;box-shadow:inset 0 0 0 4px var(--lima);opacity:0;transition:opacity .35s ease}
+.pd-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.pd.quieta .pd-quieta,.pd.quieta .pd-marco{opacity:1}
+.pd-paleta{position:absolute;left:16px;top:408px;width:62px;padding:12px 0 11px;border-radius:31px;background:rgba(46,42,36,.84);box-shadow:0 12px 34px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,255,255,.09);display:flex;flex-direction:column;align-items:center;gap:5px}
+.pd-paleta>svg{width:18px;height:22px;margin-bottom:3px;opacity:.9}
+.pt{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;font-weight:600;color:rgba(255,255,255,.58);transition:color .25s}
+.pt b{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:rgba(255,255,255,.82);transition:background .25s,color .25s,transform .3s var(--suave)}
+.pt b svg{width:24px;height:24px}
+.pt.on{color:var(--lima)}.pt.on b{background:var(--lima);color:#12160a}
+.pt.toca b{transform:scale(.86)}
+.pt.gris{opacity:.38}
+.pd-et{position:absolute;transform:translate(-50%,-50%);background:var(--lima);color:#12160a;border-radius:14px;padding:7px 15px 8px;text-align:center;white-space:nowrap;box-shadow:0 8px 22px rgba(0,0,0,.3);opacity:0}
+.pd-et b{display:block;font-size:20px;font-weight:700;letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.pd-et small{display:block;font-size:11px;font-weight:600;opacity:.78;margin-top:1px}
+.pd-et.salta{animation:salta .5s var(--suave)}
+@keyframes salta{0%{transform:translate(-50%,-50%) scale(.82)}60%{transform:translate(-50%,-50%) scale(1.07)}100%{transform:translate(-50%,-50%) scale(1)}}
+.pd-lupa{position:absolute;width:168px;height:168px;margin:-196px 0 0 -84px;border-radius:50%;background:#000 0 0/2502px 3474px no-repeat;box-shadow:0 0 0 3px rgba(255,255,255,.92),0 16px 40px rgba(0,0,0,.45);opacity:0;transform:scale(.6);transform-origin:50% 120%;transition:opacity .3s ease,transform .45s var(--suave)}
+.pd-lupa.ve{opacity:1;transform:none}
+.pd-lupa::before,.pd-lupa::after{content:"";position:absolute;left:50%;top:50%;background:var(--lima)}
+.pd-lupa::before{width:26px;height:2px;margin:-1px 0 0 -13px}.pd-lupa::after{width:2px;height:26px;margin:-13px 0 0 -1px}
+.pd-toque{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:2.5px solid var(--lima);opacity:0}
+.pd-toque.va{animation:toque .5s ease-out}
+@keyframes toque{0%{opacity:.95;transform:scale(.35)}100%{opacity:0;transform:scale(1.25)}}
+/* el lápiz, por encima de la pantalla */
+.plumin{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;pointer-events:none;will-change:transform;opacity:0;transition:opacity .5s ease}
+.plumin.ve{opacity:1}
+.plumin svg{position:absolute;left:0;top:0;width:calc(var(--w)*.96);height:calc(var(--w)*.0544);margin-top:calc(var(--w)*-.0272);transform-origin:0 50%;transform:translateZ(var(--z,0px)) rotateZ(34deg) rotateY(-22deg);filter:drop-shadow(0 3px 4px rgba(0,0,0,.28))}
+.plumin u{position:absolute;left:0;top:0;width:calc(var(--w)*.62);height:calc(var(--w)*.05);margin-top:calc(var(--w)*-.025);border-radius:99px;background:linear-gradient(90deg,rgba(0,0,0,.6),rgba(0,0,0,.28) 60%,rgba(0,0,0,0));filter:blur(calc(4px + var(--b,0px)));transform-origin:0 50%;transform:translate(var(--sx,1px),var(--sy,2px)) rotateZ(40deg);opacity:.55}
+.ojo{list-style:none;margin:0;padding:0;counter-reset:n}
+.ojo li{position:relative;padding:22px 0 22px 62px;border-top:1px solid var(--linea);opacity:.42;transition:opacity .45s ease}
+.ojo li:last-child{border-bottom:1px solid var(--linea)}
+.ojo li::before{counter-increment:n;content:"0" counter(n);position:absolute;left:0;top:27px;font:500 13px/1 var(--mono);letter-spacing:.06em;color:var(--texto2);transition:color .45s ease}
+.ojo li.on{opacity:1}.ojo li.on::before{color:var(--lima)}
+.ojo h3{font-size:clamp(22px,2.3vw,30px);letter-spacing:-.03em;font-weight:600}
+.ojo p{color:var(--texto2);font-size:clamp(16px,1.5vw,19px);line-height:1.4;margin-top:6px;letter-spacing:-.008em}
+html:not(.js) .ojo li{opacity:1}
+.resta{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:26px;font:500 13px/1.3 var(--mono);color:var(--texto2)}
+.resta b{font:500 clamp(30px,3.6vw,46px)/1 var(--mono);letter-spacing:-.05em;color:var(--lima);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lapiz .pie-foto{text-align:center;margin-top:clamp(26px,4vh,40px);font:400 12.5px/1.5 var(--mono);color:#6D777D}
 
 /* frase */
 .frase{padding:clamp(110px,18vh,200px) 0}
@@ -235,6 +314,12 @@ html.js .r.in{opacity:1;transform:none;filter:none}
   .ficha,.ficha.g{grid-column:span 1;min-height:210px}
   .ficha.a2{grid-column:span 2}
   .dudas .rejilla{grid-template-columns:1fr}
+  .taller{grid-template-columns:1fr;gap:10px}
+  .mesa{order:0;min-height:0;padding:20px 0 64px}
+  .ph.pad{--w:min(70vw,330px)}
+  .ojo li{padding:18px 0 18px 46px}.ojo li::before{top:23px}
+  .nuevo{height:46px;font-size:15px}
+  .lapiz .crece img{aspect-ratio:4/5;object-fit:cover;object-position:46% 50%}
   .traza{top:0}
   .escena{height:clamp(470px,118vw,700px)}
   .escena .centro{--w:clamp(214px,58vw,300px)}
@@ -242,11 +327,11 @@ html.js .r.in{opacity:1;transform:none;filter:none}
   .ficha h3{font-size:19px}.ficha p{font-size:15px}
   .obra-texto .cota{font-size:10.5px;gap:8px;white-space:nowrap;letter-spacing:.03em}
   .obra-texto .cota i{flex-basis:18px}
-  #cuadro{width:calc(86% + var(--m,0)*14%)}
+  .crece{width:calc(86% + var(--m,0)*14%)}
   .lamina text{font-size:24px}
   .lamina text.g{font-size:21px}
 }
-@media (max-width:560px){.lienzo{left:calc(50% - 72vw);top:calc(50% + 17svh)}.mueve .gr,.mueve .alto{display:none}.velo{background:linear-gradient(180deg,rgba(11,14,16,.94) 0,rgba(11,14,16,.86) 62%,rgba(11,14,16,.08) 80%,rgba(11,14,16,0) 92%,var(--fondo) 100%)}}
+@media (max-width:560px){.lienzo{left:calc(50% - 72vw);top:calc(50% + 17svh)}.mueve .gr,.mueve .alto{display:none}.velo{background:linear-gradient(180deg,rgba(11,14,16,.94) 0,rgba(11,14,16,.86) 70%,rgba(11,14,16,.1) 86%,rgba(11,14,16,0) 94%,var(--fondo) 100%)}}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important;transition-delay:0s!important}
@@ -258,7 +343,7 @@ html.js .r.in{opacity:1;transform:none;filter:none}
 
 <header class="nav" id="nav"><div class="ancho">
   <a class="marca" href="#arriba"><img src="img/icono.png" alt="">Acotado</a>
-  <nav><a href="#como">Cómo funciona</a><a href="#entregas">Qué entregas</a><a href="#soporte">Soporte</a><span class="pronto">Muy pronto</span></nav>
+  <nav><a href="#ipad">iPad</a><a href="#como">Cómo funciona</a><a href="#entregas">Qué entregas</a><a href="#soporte">Soporte</a><span class="pronto">Muy pronto</span></nav>
 </div></header>
 
 <main id="arriba">
@@ -286,15 +371,15 @@ html.js .r.in{opacity:1;transform:none;filter:none}
   <div class="ancho obra-texto">
     <div class="cota r"><span>PARA REFORMISTAS</span><i></i><span style="order:4">QUE PRESUPUESTAN SU OBRA</span></div>
     <h1 class="r">Sal de la visita<br>con el presupuesto <em>hecho.</em></h1>
-    <p class="entrada r">Mide con el sensor LiDAR de los iPhone Pro, corrige con tu cinta y envía el plano y el presupuesto antes de llegar a la furgoneta.</p>
-    <div class="acciones r"><a class="boton" href="#como">Ver cómo funciona</a></div>
-    <p class="sello r">App para iPhone Pro <i></i> Gratis <i></i> Sin suscripción <i></i> Muy pronto en el App Store</p>
+    <p class="entrada r">Mide con el sensor LiDAR del iPhone Pro o del iPad Pro, corrige con tu cinta y envía el plano y el presupuesto antes de llegar a la furgoneta.</p>
+    <div class="acciones r"><a class="boton" href="#como">Ver cómo funciona</a><a class="nuevo" href="#ipad"><b>NUEVO</b>En iPad, con Apple Pencil <i>→</i></a></div>
+    <p class="sello r">iPhone Pro y iPad Pro <i></i> Gratis <i></i> Sin suscripción <i></i> Muy pronto en el App Store</p>
   </div>
 </section>
 
 <section class="enobra">
   <div class="ancho"><h2 class="r">En la obra.<br><span>No en la oficina.</span></h2></div>
-  <figure id="cuadro"><img src="img/obra-manos.jpg" alt="Unas manos sujetan un iPhone en una obra, con Acotado midiendo la pared y el suelo" loading="lazy"></figure>
+  <figure class="crece"><img src="img/obra-manos.jpg" alt="Unas manos sujetan un iPhone en una obra, con Acotado midiendo la pared y el suelo" loading="lazy"></figure>
   <div class="ancho"><figcaption>Imagen ilustrativa creada con la interfaz de Acotado.</figcaption></div>
 </section>
 
@@ -305,7 +390,7 @@ html.js .r.in{opacity:1;transform:none;filter:none}
   <h2 class="r">El mismo trabajo.<br><span>Sin pasarlo a limpio.</span></h2>
   <div class="tabla">
     <div class="fila cab r"><span class="que"></span><span class="hoy">Hoy</span><span class="con">Con Acotado</span></div>
-<div class="fila r"><span class="que">Medir</span><span class="hoy">Cinta, láser y libreta</span><span class="con">Rodeas la habitación con el iPhone</span></div>
+<div class="fila r"><span class="que">Medir</span><span class="hoy">Cinta, láser y libreta</span><span class="con">Rodeas la habitación con el iPhone o el iPad</span></div>
 <div class="fila r"><span class="que">Pasar a limpio</span><span class="hoy">Otro rato, en casa o en la oficina</span><span class="con">Queda hecho al terminar de medir</span></div>
 <div class="fila r"><span class="que">Plano</span><span class="hoy">Croquis a mano o rato de CAD</span><span class="con">Plano acotado en PDF y DXF</span></div>
 <div class="fila r"><span class="que">Metros</span><span class="hoy">Calculadora y Excel</span><span class="con">Por partidas, descontando huecos</span></div>
@@ -313,6 +398,63 @@ html.js .r.in{opacity:1;transform:none;filter:none}
 <div class="fila r"><span class="que">Si cambia una medida</span><span class="hoy">Vuelves a hacer las cuentas</span><span class="con">Se recalcula todo</span></div>
   </div>
 </div></section>
+
+<section class="lapiz" id="ipad">
+  <div class="ancho cab">
+    <div class="cota r"><span>NUEVO</span><i></i><span style="order:4">iPAD + APPLE PENCIL</span></div>
+    <h2 class="r">Dibuja la ventana.<br><em>Sale medida.</em></h2>
+    <p class="abre r">En el iPad Pro, la punta del Apple Pencil marca cada esquina y dibuja cada puerta y cada ventana sobre la propia pared. Tú trazas; Acotado pone los centímetros.</p>
+  </div>
+  <figure class="crece"><img src="img/obra-ipad.jpg" width="2400" height="1340" alt="Unas manos sujetan un iPad en una obra y dibujan con un Apple Pencil el contorno de una ventana, que queda marcada con sus medidas" loading="lazy"></figure>
+  <div class="ancho">
+    <figcaption>Imagen ilustrativa creada con la interfaz de Acotado.</figcaption>
+    <div class="taller">
+      <div class="mesa" id="mesa" aria-hidden="true">
+        <div class="halo"></div>
+        <div class="ph pad" id="pad">
+<!-- pd -->
+          <div class="pd">
+            <img src="img/ipad-sala.jpg" alt="" loading="lazy">
+            <div class="pd-som"></div>
+            <svg class="ar" viewBox="0 0 834 1158">
+              <path class="zo" d="M-10 695H549M782 695H850"/>
+              <rect class="hu" id="hu1"/><rect class="hu" id="hu2"/>
+            </svg>
+            <div class="pd-marco"></div>
+            <div class="pd-est"><b>9:41</b><span>Mar 10 nov</span><svg viewBox="0 0 62 14" fill="#fff"><path d="M9 11.2a1.6 1.6 0 1 1 0 .01zM4.6 7.7a6.3 6.3 0 0 1 8.8 0l-1.3 1.3a4.4 4.4 0 0 0-6.2 0zM1.5 4.6a10.6 10.6 0 0 1 15 0l-1.3 1.3a8.8 8.8 0 0 0-12.4 0z"/><rect x="30.5" y="1.5" width="25" height="11" rx="3.4" fill="none" stroke="#fff" stroke-opacity=".5"/><rect x="32.2" y="3.2" width="21.6" height="7.6" rx="2" /><rect x="57" y="5" width="2" height="4" rx="1" fill-opacity=".5"/></svg></div>
+            <div class="pd-bo" style="left:20px"><svg viewBox="0 0 20 20"><path d="M4.5 4.5l11 11M15.5 4.5l-11 11" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></div>
+            <div class="pd-aviso" id="pd-aviso">Dibuja una puerta o una ventana sobre la pared</div>
+            <div class="pd-bo" style="right:20px"><svg viewBox="0 0 20 20" fill="#fff"><circle cx="4" cy="10" r="1.8"/><circle cx="10" cy="10" r="1.8"/><circle cx="16" cy="10" r="1.8"/></svg></div>
+            <div class="pd-quieta"><span><svg viewBox="0 0 11 12"><rect width="3.6" height="12" rx="1" fill="currentColor"/><rect x="7.4" width="3.6" height="12" rx="1" fill="currentColor"/></svg>Imagen congelada</span><span><svg viewBox="0 0 11 12"><path d="M0 0v12l11-6z" fill="currentColor"/></svg>Seguir en vivo</span></div>
+            <div class="pd-paleta">
+              <svg viewBox="0 0 18 22" fill="#fff"><path d="M9 .8l4.6 12.4H4.4zM4.4 15h9.2v1.9H4.4zM5.6 18.6h6.8v2.6H5.6z"/></svg>
+              <div class="pt" id="pt-esq"><b><svg viewBox="0 0 24 24"><path d="M6 3.5V18h14.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="2.7" fill="currentColor"/></svg></b>Esquina</div>
+              <div class="pt on" id="pt-hue"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3.5" y="4" width="8" height="16"/><rect x="14.5" y="4" width="6.5" height="7"/></svg></b>Hueco</div>
+              <div class="pt gris" id="pt-des"><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 5L4 9.5 8.5 14"/><path d="M4.5 9.5H14a5.5 5.5 0 0 1 0 11h-3"/></svg></b>Deshacer</div>
+              <div class="pt" id="pt-con"><b><svg viewBox="0 0 24 24"><rect x="7" y="5.5" width="3.6" height="13" rx="1" fill="currentColor"/><rect x="13.4" y="5.5" width="3.6" height="13" rx="1" fill="currentColor"/></svg></b>Congelar</div>
+            </div>
+            <div class="pd-et" id="et1"><b>132 × 136 cm</b><small>Ventana · a 69 cm del suelo</small></div>
+            <div class="pd-et" id="et2"><b>96 × 203 cm</b><small>Puerta</small></div>
+            <div class="pd-lupa" id="pd-lupa" style="background-image:url(img/ipad-sala.jpg)"></div>
+            <div class="pd-toque" id="pd-toque"></div>
+            <div class="pd-flash" id="pd-flash"></div>
+          </div>
+<!-- /pd -->
+          <div class="plumin"><u></u><svg viewBox="0 0 600 34"><defs><linearGradient id="lz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".42" stop-color="#f3f3f0"/><stop offset=".8" stop-color="#cfcfca"/><stop offset="1" stop-color="#b4b4ae"/></linearGradient></defs><path d="M0 17C12 12.5 40 4.5 64 2L584 .5Q600 .5 600 17T584 33.5L64 32C40 29.5 12 21.5 0 17Z" fill="url(#lz)"/><path d="M64 2.5v29" stroke="#000" stroke-opacity=".13" fill="none"/><path d="M70 6.5L590 5.2" stroke="#fff" stroke-opacity=".9" stroke-width="2.4" fill="none"/></svg></div>
+        </div>
+      </div>
+      <div>
+        <ol class="ojo" id="ojo">
+          <li class="on"><h3>Acércalo</h3><p>Antes de tocar, una lupa te enseña dónde va a caer la esquina. Toca, y queda puesta.</p></li>
+          <li><h3>Doble toque</h3><p>Cambias de herramienta sin soltar el lápiz. Y apoya la mano tranquilo: mientras marcas, solo cuenta la punta.</p></li>
+          <li><h3>Dibuja el hueco</h3><p>Un rectángulo sobre la pared y la puerta o la ventana sale con su ancho, su alto y la altura a la que queda del suelo.</p></li>
+          <li><h3>Congela la imagen</h3><p>Deja la imagen quieta, apoya el iPad y sigue dibujando con calma. Lo que marcas cae en su sitio.</p></li>
+        </ol>
+        <p class="resta"><span>Descontado de los<br>metros de pared</span><b id="resta">3,74 m²</b></p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="portada">
   <div class="reticula"></div><div class="halo"></div>
@@ -416,16 +558,17 @@ html.js .r.in{opacity:1;transform:none;filter:none}
 <section class="privada"><div class="ancho">
   <div class="cota r"><span>PRIVADA</span><i></i><span style="order:4">Y TUYA</span></div>
   <h2 class="r"><span>Sin cuentas.</span><span>Sin conexión.</span><span>Sin suscripción.</span></h2>
-  <p class="r">Tus obras y las de tus clientes se quedan en tu iPhone. Solo salen cuando tú las envías.</p>
+  <p class="r">Tus obras y las de tus clientes se quedan en tu iPhone o en tu iPad. Solo salen cuando tú las envías.</p>
 </div></section>
 
 <section class="dudas" id="soporte"><div class="ancho"><div class="rejilla">
   <h2 class="r">Preguntas y soporte</h2>
   <div class="r">
-    <details><summary>¿Qué iPhone necesito?</summary><p>Para medir hace falta un iPhone con LiDAR: los modelos Pro desde el 12 Pro, con iOS 26. En cualquier otro iPhone con iOS 26 puedes abrir la obra de ejemplo y ver el plano, el 3D y el presupuesto.</p></details>
+    <details><summary>¿Qué iPhone o iPad necesito?</summary><p>Para medir hace falta el sensor LiDAR: lo llevan los iPhone Pro desde el 12 Pro y los iPad Pro desde 2020. Hace falta iOS 26 o iPadOS 26. En cualquier otro iPhone o iPad con esa versión puedes abrir la obra de ejemplo y ver el plano, el 3D y el presupuesto.</p></details>
+    <details><summary>¿Necesito un Apple Pencil?</summary><p>No. En el iPad puedes medir con el dedo, igual que en el iPhone. Si tienes un Apple Pencil, la app lo reconoce al primer toque: marcas las esquinas con la punta y dibujas las puertas y las ventanas sobre la pared. El doble toque para cambiar de herramienta necesita un Apple Pencil de 2.ª generación o un Apple Pencil Pro, y la lupa al acercar la punta, un iPad Pro con chip M2 o posterior.</p></details>
     <details><summary>¿Cómo de exactas son las medidas?</summary><p>Toda medición con LiDAR tiene un margen de error. En nuestra prueba en un recibidor real, las medidas del plano se desviaron apenas 1 cm respecto a la cinta, y la altura 2 cm (2,34 m frente a 2,32 m). Es una sola sala y cada obra es distinta: por eso puedes comprobar una pared con tu cinta y ajustar el plano. Confirma siempre las medidas en obra antes de cortar o de hacer un pedido.</p></details>
     <details><summary>¿Cuánto cuesta?</summary><p>La primera versión es gratis, sin compras dentro de la app y sin suscripción.</p></details>
-    <details><summary>¿Dónde se guardan mis datos?</summary><p>En tu iPhone. La app no tiene cuentas, no usa analítica y no se conecta a internet. Lee la <a href="privacidad.html">política de privacidad</a>.</p></details>
+    <details><summary>¿Dónde se guardan mis datos?</summary><p>En tu iPhone o en tu iPad. La app no tiene cuentas, no usa analítica y no se conecta a internet. Lee la <a href="privacidad.html">política de privacidad</a>.</p></details>
     <details><summary>Consejos para medir bien</summary><p>Enciende las luces, abre las puertas, camina despacio y rodea la habitación hasta que veas «Habitación completa». Después comprueba una medida con tu cinta.</p></details>
     <details><summary>¿Algún problema?</summary><p>Escribe a <a href="mailto:nachogg1228@gmail.com">nachogg1228@gmail.com</a>.</p></details>
   </div>
@@ -442,7 +585,7 @@ html.js .r.in{opacity:1;transform:none;filter:none}
 
 <footer class="pie"><div class="ancho">
   <div class="fila"><span>© 2026 Ignacio García</span><span><a href="privacidad.html">Privacidad</a> &nbsp;·&nbsp; <a href="mailto:nachogg1228@gmail.com">Soporte</a></span></div>
-  <p class="legal">Pantallas de la app con datos de ejemplo. Las escenas de obra están creadas con IA y la pantalla de medir es una recreación con la interfaz real. iPhone, LiDAR Scanner y App Store son marcas de Apple Inc. Las medidas son orientativas: confírmalas en obra.</p>
+  <p class="legal">Pantallas de la app con datos de ejemplo. Las escenas de obra están creadas con IA y las pantallas de medir son una recreación con la interfaz real. iPhone, iPad, Apple Pencil, LiDAR Scanner y App Store son marcas de Apple Inc. Las medidas son orientativas: confírmalas en obra.</p>
 </div></footer>
 
 <script>
@@ -451,14 +594,16 @@ html.js .r.in{opacity:1;transform:none;filter:none}
   // monta el teléfono: las capas de detrás hacen el canto metálico
   function monta(p){
     var w=p.getBoundingClientRect().width||parseFloat(getComputedStyle(p).width)||300;
-    var fondo=Math.max(14,Math.min(26,w*.075)),n=Math.round(fondo/1.1),h='';
+    var pad=p.classList.contains('pad'),fondo=pad?Math.max(9,Math.min(14,w*.03)):Math.max(14,Math.min(26,w*.075)),n=Math.round(fondo/1.1),h='';
     h+='<div class="sombra" style="transform:translateZ('+(-fondo-30)+'px)"></div>';
     for(var i=n;i>0;i--)h+='<div class="capa" style="transform:translateZ('+(-i*1.1).toFixed(1)+'px)"></div>';
     var pasos=p.dataset.pasos,imgs;
-    if(pasos)imgs=pasos.split(' ').map(function(n,i){return '<img class="'+(i?'':'activa')+'" src="img/'+n+'.jpg" alt=""'+(i?' loading="lazy"':'')+'>'}).join('');
-    else imgs='<img src="img/'+p.dataset.img+'.jpg" alt=""'+(p.hasAttribute('data-lazy')?' loading="lazy"':'')+'>';
-    var nota=p.querySelector('.nota');
-    p.insertAdjacentHTML('afterbegin',h+'<div class="cara"><div class="pantalla">'+imgs+'</div><div class="brillo"></div></div>');
+    if(pad)imgs='';
+    else if(pasos)imgs=pasos.split(' ').map(function(n,i){return '<img class="'+(i?'':'activa')+'" src="img/'+n+'.jpg" alt=""'+(i?' loading="lazy"':'')+'>'}).join('');
+    else if(!pad)imgs='<img src="img/'+p.dataset.img+'.jpg" alt=""'+(p.hasAttribute('data-lazy')?' loading="lazy"':'')+'>';
+    var nota=p.querySelector('.nota'),pd=pad&&p.querySelector('.pd');
+    p.insertAdjacentHTML('afterbegin',h+'<div class="cara"><div class="pantalla">'+(pad?'':imgs)+'</div><div class="brillo"></div></div>');
+    if(pd)p.querySelector('.pantalla').appendChild(pd);
     if(nota)p.appendChild(nota);
   }
   document.querySelectorAll('.ph').forEach(monta);
@@ -479,7 +624,7 @@ html.js .r.in{opacity:1;transform:none;filter:none}
   })(f);
 
   var nav=document.getElementById('nav'),esc=document.getElementById('escena'),
-      c=document.getElementById('f-c'),i=document.getElementById('f-i'),d=document.getElementById('f-d'),pedido=false;
+      c=document.getElementById('f-c'),i=document.getElementById('f-i'),d=document.getElementById('f-d'),pedido=false,crecen=document.querySelectorAll('.crece');
   function pinta(){
     pedido=false;
     var y=scrollY,vh=innerHeight;
@@ -487,7 +632,7 @@ html.js .r.in{opacity:1;transform:none;filter:none}
     var mov=innerWidth<=860,er=esc.getBoundingClientRect(),p=quieto?1:Math.max(0,Math.min(1,(vh*.95-er.top)/(vh*.75))),abre=20+p*(mov?68:78); // % del ancho del teléfono
     var w=i.offsetWidth;
     c.style.transform='translateY('+((1-p)*60)+'px) rotateX('+((1-p)*7)+'deg)';
-    var cu=document.getElementById('cuadro'),cr=cu.getBoundingClientRect(),m=quieto?1:Math.max(0,Math.min(1,(vh*.92-cr.top)/(vh*.72)));cu.style.setProperty('--m',m.toFixed(3));
+    crecen.forEach(function(cu){var cr=cu.getBoundingClientRect(),m=quieto?1:Math.max(0,Math.min(1,(vh*.92-cr.top)/(vh*.72)));cu.style.setProperty('--m',m.toFixed(3))});
     i.style.transform='translateX('+(-abre/100*w)+'px) translateZ(-120px) rotateY('+(p*26)+'deg) rotateZ('+(-p*2.5)+'deg)';
     d.style.transform='translateX('+(abre/100*w)+'px) translateZ(-120px) rotateY('+(-p*26)+'deg) rotateZ('+(p*2.5)+'deg)';
     var r=f.getBoundingClientRect(),av=(vh*.82-r.top)/(r.height+vh*.28),on=Math.floor(Math.max(0,Math.min(1,av))*(pal.length+1));
@@ -509,6 +654,83 @@ html.js .r.in{opacity:1;transform:none;filter:none}
   pon(0);
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)pon(+e.target.dataset.i)})},{rootMargin:'-50% 0px -50% 0px'});
   document.querySelectorAll('.paso').forEach(function(p){io.observe(p)});
+
+
+  // iPad: el lápiz enseña la lupa, cambia de herramienta, dibuja la ventana, congela la imagen y dibuja la puerta
+  (function(){
+    var pad=document.getElementById('pad'),pd=pad.querySelector('.pd'),pl=pad.querySelector('.plumin'),
+        $=function(n){return document.getElementById(n)},aviso=$('pd-aviso'),lupa=$('pd-lupa'),toque=$('pd-toque'),flash=$('pd-flash'),resta=$('resta'),
+        tE=$('pt-esq'),tH=$('pt-hue'),tD=$('pt-des'),tC=$('pt-con'),lista=document.querySelectorAll('#ojo li'),
+        PAUSA=tC.querySelector('b').innerHTML,SIGUE='<svg viewBox="0 0 24 24"><path d="M8.5 5.2v13.6L19.5 12z" fill="currentColor"/></svg>',
+        SUELO=695,k=.5,borde=0,x=1010,y=640,z=60,turno=0;
+    // cada hueco: su rectángulo, su etiqueta, de qué esquina a cuál se dibuja y lo que mide de verdad (cm)
+    var H=[{r:$('hu1'),e:$('et1'),a:[95,194],b:[427,526],an:132,al:136},{r:$('hu2'),e:$('et2'),a:[549,207],b:[782,695],an:96,al:203}];
+    function lleva(){
+      pl.style.transform='translate3d('+(borde+x*k).toFixed(1)+'px,'+(borde+y*k).toFixed(1)+'px,0)';
+      pl.style.setProperty('--z',(z*k).toFixed(1)+'px');pl.style.setProperty('--sx',(1+z*.5*k).toFixed(1)+'px');pl.style.setProperty('--sy',(2+z*.9*k).toFixed(1)+'px');pl.style.setProperty('--b',(z*.1).toFixed(1)+'px');
+      lupa.style.left=x+'px';lupa.style.top=y+'px';lupa.style.backgroundPosition=(84-3*x).toFixed(0)+'px '+(84-3*y).toFixed(0)+'px';
+    }
+    function escala(){var w=pad.offsetWidth;k=w*.94/834;borde=w*.03;pd.style.setProperty('--k',k.toFixed(4));lleva()}
+    function su(p){return p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2}
+    function tw(ms,fn,T){return new Promise(function(ok,no){var t0=performance.now();(function f(t){if(T!==turno)return no();var p=Math.min(1,Math.max(0,(t-t0)/ms));fn(p);if(p<1)requestAnimationFrame(f);else ok()})(t0)})}
+    function espera(ms,T){return tw(ms,function(){},T)}
+    function ir(x1,y1,z1,ms,T){var x0=x,y0=y,z0=z;return tw(ms,function(p){var e=su(p);x=x0+(x1-x0)*e;y=y0+(y1-y0)*e;z=z0+(z1-z0)*e;lleva()},T)}
+    function pinta(h,px,py){
+      var x0=h.a[0],y0=h.a[1],w=Math.max(0,px-x0),al=Math.max(0,Math.min(py,SUELO)-y0),fw=h.b[0]-x0,fh=h.b[1]-y0,
+          sue=Math.round((SUELO-y0-al)/fh*h.al);
+      h.r.setAttribute('x',x0);h.r.setAttribute('y',y0);h.r.setAttribute('width',w.toFixed(1));h.r.setAttribute('height',al.toFixed(1));
+      h.e.style.left=(x0+w/2).toFixed(1)+'px';h.e.style.top=(y0+al/2).toFixed(1)+'px';
+      h.e.firstChild.textContent=Math.round(w/fw*h.an)+' × '+Math.round(al/fh*h.al)+' cm';
+      h.e.lastChild.textContent=sue<15?'Puerta':'Ventana · a '+sue+' cm del suelo';
+      h.r.style.opacity=1;h.e.style.opacity=w>150&&al>56?1:0;
+    }
+    function herramienta(h){tE.classList.toggle('on',h==='e');tH.classList.toggle('on',h==='h');aviso.textContent=h==='e'?'Toca una esquina con el lápiz':'Dibuja una puerta o una ventana sobre la pared'}
+    function congela(si){tC.classList.toggle('on',si);tC.querySelector('b').innerHTML=si?SIGUE:PAUSA;tC.lastChild.textContent=si?'En vivo':'Congelar';pd.classList.toggle('quieta',si)}
+    function paso(n){lista.forEach(function(li,j){li.classList.toggle('on',j===n)})}
+    function m2(v){return v.toFixed(2).replace('.',',')+' m²'}
+    function cuenta(de,a,T){return tw(700,function(p){resta.textContent=m2(de+(a-de)*su(p))},T)}
+    function pulsa(px,py){toque.style.left=px+'px';toque.style.top=py+'px';toque.classList.remove('va');void toque.offsetWidth;toque.classList.add('va')}
+    function centro(el){var q=el.parentNode;return [q.offsetLeft+el.offsetLeft+el.offsetWidth/2,q.offsetTop+el.offsetTop+22]}
+    function limpia(){
+      H.forEach(function(h){h.r.style.transition=h.e.style.transition='';h.r.style.opacity=0;h.r.classList.remove('puesto');h.e.style.opacity=0;h.e.classList.remove('salta')});
+      congela(false);pad.classList.remove('apoyado');tD.classList.add('gris');lupa.classList.remove('ve');resta.textContent=m2(0);herramienta('e');
+    }
+    async function dibuja(h,T){
+      await ir(h.a[0],h.a[1],26,900,T);await ir(h.a[0],h.a[1],0,220,T);
+      var x0=x,y0=y,fx=h.b[0],fy=h.b[1]+(h.al>200?16:0);          // la puerta se pasa un poco del suelo: se queda pegada a él
+      await tw(1500,function(p){var e=su(p);x=x0+(fx-x0)*e;y=y0+(fy-y0)*(e*.8+p*.2);lleva();pinta(h,x,y)},T);
+      pinta(h,h.b[0],h.b[1]);h.r.classList.add('puesto');h.e.classList.add('salta');tD.classList.remove('gris');
+      await ir(x+12,y+9,30,320,T);
+    }
+    async function bucle(){
+      var T=++turno;
+      try{for(;;){
+        limpia();x=1010;y=640;z=60;lleva();pl.classList.add('ve');paso(0);
+        await espera(500,T);
+        await ir(559,704,34,1300,T);lupa.classList.add('ve');                       // 1 · se acerca: la lupa
+        await ir(545,690,24,800,T);await ir(550,695,22,700,T);await espera(650,T);
+        paso(1);lupa.classList.remove('ve');await espera(250,T);                     // 2 · doble toque: de Esquina a Hueco
+        pulsa(x+96,y+64);await espera(200,T);pulsa(x+96,y+64);herramienta('h');await espera(950,T);
+        paso(2);await dibuja(H[0],T);await cuenta(0,1.8,T);await espera(700,T);      // 3 · la ventana
+        paso(3);var c=centro(tC);await ir(c[0],c[1],24,900,T);await ir(c[0],c[1],0,180,T);   // 4 · congelar, apoyar el iPad y la puerta
+        tC.classList.add('toca');congela(true);if(flash.animate)flash.animate([{opacity:.5},{opacity:0}],{duration:420,easing:'ease-out'});
+        await espera(170,T);tC.classList.remove('toca');await ir(c[0]+34,c[1]-12,34,380,T);
+        pad.classList.add('apoyado');await espera(1150,T);
+        await dibuja(H[1],T);await cuenta(1.8,3.74,T);await espera(2800,T);
+        await ir(c[0],c[1],24,800,T);await ir(c[0],c[1],0,160,T);                    // y vuelta a empezar
+        tC.classList.add('toca');congela(false);pad.classList.remove('apoyado');await espera(170,T);tC.classList.remove('toca');
+        H.forEach(function(h){h.r.style.transition=h.e.style.transition='opacity .5s ease';h.r.style.opacity=0;h.e.style.opacity=0});
+        await ir(1010,640,60,1100,T);
+      }}catch(e){}
+    }
+    escala();addEventListener('resize',escala);
+    if(quieto||!window.Promise||!window.IntersectionObserver){               // sin movimiento: la pared ya medida
+      limpia();herramienta('h');H.forEach(function(h){pinta(h,h.b[0],h.b[1]);h.r.classList.add('puesto')});tD.classList.remove('gris');
+      resta.textContent=m2(3.74);x=794;y=704;z=30;lleva();pl.classList.add('ve');lista.forEach(function(li){li.classList.add('on')});
+      return;
+    }
+    new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)bucle();else turno++})},{threshold:.25}).observe($('mesa'));
+  })();
 
   var ver=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ver.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
   document.querySelectorAll('.r,.dispara').forEach(function(e){ver.observe(e)});
